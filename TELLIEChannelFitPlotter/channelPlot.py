@@ -62,6 +62,8 @@ def simplePlot(fileData,xName,yName,xError=0,yError=0):
     if xError != 0 and yError == 0:
         xErr = fileData.findData(xError)
         plt.errorbar(xDat.getData(),yDat.getData(),xerr=xErr.getData())
+	plt.ylim(0,1)
+	plt.gca().set_marker('o')
         plt.ylabel(yName)
         plt.xlabel(xName)
         plt.title("Plot of "+yName+" vs. "+xName+" with errors given by "+xError)
@@ -79,13 +81,15 @@ def simplePlot(fileData,xName,yName,xError=0,yError=0):
         xErr = fileData.findData(xError)
         yErr = fileData.findData(yError)
         plt.errorbar(xDat.getData(),yDat.getData(),yerr=yErr.getData(),xerr=xErr.getData())
+	plt.gca().set_marker('o')
         plt.ylabel(yName)
         plt.xlabel(xName)
         plt.title("Plot of "+yName+" vs. "+xName+" with errors given by y: "+yError+" and x: "+xError)
         plt.show()
 
     elif xError == 0 and yError == 0:
-        plt.plot(xDat.getData(),yDat.getData())
+        plt.plot(xDat.getData(),yDat.getData(),'ro')
+	plt.ylim(0,1)
         plt.ylabel(yName)
         plt.xlabel(xName)
         plt.title("Plot of "+yName+" vs. "+xName)
@@ -98,6 +102,6 @@ def doublePlot(xData,y1Data,y2Data,x1Error=0,x2Error=0,y1Error=0,y2Error=0):
 if __name__ == "__main__":
     fileData = dataSet()
     fileData.parseFile("./resultsOverview.csv")
-    simplePlot(fileData,"channel","ipw_p0")
+    simplePlot(fileData,"channel","pinChi2")
 
 

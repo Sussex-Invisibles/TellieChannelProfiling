@@ -22,6 +22,8 @@ if __name__ == "__main__":
 	minX = x[minIndex]
 	offset = minX-5000
 	shiftUpwards = 0
+	if minY>1000:
+	    print "Channel %d is above 1000 photons minimum" % (i+1)
 	if minY<0:
 	    shiftUpwards = -minY
 		
@@ -37,8 +39,6 @@ if __name__ == "__main__":
     for i in range(len(ipw_p0)):
        max_F = np.maximum(total_F[i],max_F) 
        min_F = np.minimum(total_F[i],min_F) 
-    print max_F 
-    print min_F
     std_F = np.std(total_F,axis=0,dtype=np.float64)
     sig_above_F = np.add(mean_F,std_F)
     sig_below_F = np.subtract(mean_F,std_F)
@@ -51,10 +51,9 @@ if __name__ == "__main__":
     plt.plot(x,max_F,label="Maximum valued func")
     plt.plot(x,min_F,label="Minimum valued func")'''
     #plt.legend(loc="upper right")
-    plt.xlim(4000,5000)
-    plt.ylim(0,3e5)
-    plt.axhline(y=1000,linewidth=4,color='r')
-    plt.axhline(y=10000,linewidth=4,color='r')
-    plt.axhline(y=100000,linewidth=4,color='r')
+    plt.xlim(4300,5000)
+    plt.ylim(0,2.5e4)
+    plt.axhline(y=1000,linewidth=2,color='r')
+    plt.axhline(y=10000,linewidth=2,color='r')
     plt.show()
 
