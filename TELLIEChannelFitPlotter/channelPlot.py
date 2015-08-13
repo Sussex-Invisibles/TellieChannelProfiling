@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-
+import sys
+import optparse 
 
 class data:
     def __init__(self,dataName):
@@ -30,23 +31,18 @@ class dataSet:
         for dat in self.dataList:
             if dataName == dat.getName():
                 return dat
-
         print "Unable to find data Item: ",dataName
         return 0
-            
 
     def parseFile(self,filename):
         inFile = open(filename)
         firstLine = True
         for line in inFile:
             dataVals = (line.strip()).split(",")
-            
             if firstLine:
                 for element in dataVals:
                     self.dataList.append(data(element))
-                    
                 firstLine = False
-
             else:
                 for i in range(len(dataVals)):
                     self.dataList[i].addDataPoint(dataVals[i])
@@ -89,7 +85,7 @@ def simplePlot(fileData,xName,yName,xError=0,yError=0):
 
     elif xError == 0 and yError == 0:
         plt.plot(xDat.getData(),yDat.getData(),'ro')
-	plt.ylim(0,1)
+	#plt.ylim(0,1)
         plt.ylabel(yName)
         plt.xlabel(xName)
         plt.title("Plot of "+yName+" vs. "+xName)
@@ -100,8 +96,13 @@ def doublePlot(xData,y1Data,y2Data,x1Error=0,x2Error=0,y1Error=0,y2Error=0):
     pass
 
 if __name__ == "__main__":
+    parser = optparse.OptionParser()
+    parser.add_option("-f",dest="file",help="Results file to be read in")
+    parser.add_option("-o",dest="parameter",default="ipwChi2",help="The parameter to be plotted against channel no. Default: ipwChi2")
+    (options,args) = parser.parse_args()
+
     fileData = dataSet()
-    fileData.parseFile("./resultsOverview.csv")
-    simplePlot(fileData,"channel","pinChi2")
-
-
+    fileData.parseFile(options.file)
+    if fileData.findData(options.parameter) == 0:
+        raise ValueError("Parameter [%s] does not exist in file %s" % (options.parameter, options.file))
+    simplePlot(fileData,"channel",options.parameter)

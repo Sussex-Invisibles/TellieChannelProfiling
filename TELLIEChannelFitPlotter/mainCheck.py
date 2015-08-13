@@ -2,7 +2,7 @@ from channelPlot import data
 from channelPlot import dataSet
 import numpy as np
 import matplotlib.pyplot as plt
-
+import optparse
 
 #Method to flag and plot the bad fits
 def flagBadFits(dataFile):
@@ -22,4 +22,10 @@ def flagBadFits(dataFile):
 
 
 if __name__=="__main__":
-    flagBadFits("./resultsOverview.csv")
+    parser = optparse.OptionParser()
+    parser.add_option("-f",dest="file",help="Results file to be read in")
+    (options,args) = parser.parse_args()
+    if options.file is None:
+        raise ValueError("User must pass results file to be read via -f flag")
+
+    flagBadFits(options.file)

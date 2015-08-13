@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     fileData = dataSet()
-    fileData.parseFile("./resultsOverview.csv")
+    fileData.parseFile("results/resultsOverview.csv")
     ipw_p0 = np.asarray(fileData.findData("ipw_p0").getData())
     ipw_p1 = np.asarray(fileData.findData("ipw_p1").getData())
     ipw_p2 = np.asarray(fileData.findData("ipw_p2").getData())
